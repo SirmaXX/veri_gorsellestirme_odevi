@@ -21,36 +21,36 @@ USDTRY <- historical_exchange_rates("USD",
                                     start_date="2010-01-01",
                                     end_date = "2020-03-19")
 colnames(USDTRY)[2]="usd_to_try"
-#haftanın  günlerini çektik usdtry paritesi için 
+#haftanÄ±n  gÃ¼nlerini Ã§ektik usdtry paritesi iÃ§in 
 fusdtry<-USDTRY%>%
   select(date,usd_to_try) %>%
   mutate(weekday = wday(date))
-# hafta günleri içinden pazartesi ve cuma olan çalışma günlerini çektik 
+# hafta gÃ¼nleri iÃ§inden pazartesi ve cuma olan Ã§alÄ±ÅŸma gÃ¼nlerini .ektik 
 f2usdtry<-USDTRY%>%
   select(date,usd_to_try) %>%
   mutate(weekday = wday(date, label=TRUE)) %>%
   filter(!wday(date) %in% c(1, 7))
   
-# tarih aralığını saptadık
+# tarih aralÄ±ÄŸÄ±nÄ± saptadÄ±k
 range(edata$Date)
 #"2010-01-01" "2020-03-19"
 
-#sütun isimlerini öğrendik
+#sÃ¼tun isimlerini Ã¶ÄŸrendik
 names(edata)
-#çıkarmak istediğimiz sütün isimlerini aşağıda yazarak çıkarttık
+#Ã§Ä±karmak istediÄŸimiz sÃ¼tun isimlerini aÅŸaÄŸÄ±da yazarak Ã§Ä±karttÄ±k
 df = subset(edata, select = -c(Adj.Close,High,Low,Open,Volume) )
 
-#istenmeyen sütünlardan temizlenmiş verisetini erdata değişkenine atadık.
+#istenmeyen sÃ¼tunlardan temizlemek verisetini erdata deÄŸiÅŸkenine atadÄ±k.
 
 
 erdata<-df
 
-#Date formatına çevirme 
+#Date formatÄ±na Ã§evirme 
 erdata<-erdata%>%
   mutate(Date=as.Date(erdata$Date))
 typeof(erdata$Date)
 
-#left join işlemi ile aralarında bulunan tarih farklarını eledik ve zaman aralıkları eşitlendi
+#left join iÅŸlemi ile aralarÄ±nda bulunan tarih farklarÄ±nÄ± eledik ve zaman aralÄ±klarÄ± iÅŸlendi
 
 
 matching<-left_join(f2usdtry,erdata, by = c("date" = "Date"))
@@ -67,29 +67,29 @@ names(matching2)
 melted_matchings2<-melt(matching2,id=c("date"))
 
 ggplot(melted_matchings2,aes(x=date,y=value,color=variable)) +
-  geom_line() + # grafik tipini berlirledik
+  geom_line() + # grafik tipini belirledik
   theme_bw()+
-  labs(title="Yıllara Göre Dolar Türk Lirası Ve Eregli Demir Çelik Fiyat Değişimi",x = "Yillar",
+  labs(title="YÄ±llara GÃ¶re Dolar TÃ¼rk LirasÄ± Ve Eregli Demir Ã‡elik Fiyat DeÄŸiÅŸimi",x = "Yillar",
        y = "Fiyat(TL)") + # grafik basligi eksen isimlerini ayarladik
-  scale_color_manual(name="Varlıklar",
+  scale_color_manual(name="VarlÄ±klar",
                      labels=c("USDTRY","EREGLI"), 
-                     values=c("green4", "firebrick1","darkorange")) +  # lejant ismi ve lejantta yer alan degiskenlerin isimlerini düzenledik
-  geom_smooth(se = T,size=0.5)+ # grafige trend çizgisi yerlestirdik
-  expand_limits(y=c(0,15))  # y ekseninin eksende yer alan sayilari düzenledik
+                     values=c("green4", "firebrick1","darkorange")) +  # lejant ismi ve lejantta yer alan degiskenlerin isimlerini dÃ¼zenledik
+  geom_smooth(se = T,size=0.5)+ # grafige trend ?izgisi yerlestirdik
+  expand_limits(y=c(0,15))  # y ekseninin eksende yer alan sayilari dÃ¼zenledik
 
 
-## Yanlış Görselleştirme türü y 0 dan başlamıyor
+## Yanl?? G?rselle?tirme t?r? y 0 dan ba?lam?yor
 
 ggplot(melted_matchings2,aes(x=date,y=value,color=variable)) +
   geom_line() + # grafik tipini berlirledik
   theme_bw()+
-  labs(title="Yıllara Göre Dolar Türk Lirası Ve Eregli Demir Çelik Hisse  
-                         Fiyatı  Değişimi",x = "Yıllar",
+  labs(title="YÄ±llara GÃ¶re Dolar TÃ¼rk LirasÄ± Ve Eregli Demir Ã‡elik Hisse  
+                         FiyatÄ±  DeÄŸiÅŸimi",x = "Y?llar",
        y = "Fiyat(TL)") + # grafik basligi eksen isimlerini ayarladik
-  scale_color_manual(name="Varlıklar",
+  scale_color_manual(name="VarlÄ±klar",
                      labels=c("USDTRY","EREGLI"), 
-                     values=c("green4", "firebrick1","darkorange")) +  # lejant ismi ve lejantta yer alan degiskenlerin isimlerini düzenledik
-  geom_smooth(se = T)+ # grafige trend çizgisi yerlestirdik
+                     values=c("green4", "firebrick1","darkorange")) +  # lejant ismi ve lejantta yer alan degiskenlerin isimlerini d?zenledik
+  geom_smooth(se = T)+ # grafige trend ?izgisi yerlestirdik
   expand_limits(y=c(10,15)) 
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -100,11 +100,11 @@ ggplot(melted_matchings2,aes(x=date,y=value,color=variable)) +
 
 
 
-# ISDEMIR USDTRY PARİTESİ  FİYAT KARŞILAŞTIRMASI
+# ISDEMIR USDTRY PAR?TES?  F?YAT KAR?ILA?TIRMASI
 
 
 
-isdmr<-read.csv("D:\\Yedek\\VG PROJE\\ISDMR.csv")
+isdmr<-read.csv("/home/deniz/MasaÃ¼stÃ¼/veri_gorsellestirme_odevi/datasets/ISDMR.csv")
 
 range(isdmr$Date)
 #"2016-03-28" "2020-03-19"
@@ -117,30 +117,30 @@ USDTRY2 <- historical_exchange_rates("USD",
 colnames(USDTRY2)[2]="usd_to_try"
 
 
-#haftanın  günlerini çektik usdtry paritesi için 
+#haftan?n  g?nlerini ?ektik usdtry paritesi i?in 
 utry<-USDTRY2%>%
   select(date,usd_to_try) %>%
   mutate(weekday = wday(date))
-# hafta günleri içinden pazartesi ve cuma olan çalışma günlerini çektik 
+# hafta g?nleri i?inden pazartesi ve cuma olan ?al??ma g?nlerini ?ektik 
 u2try<-USDTRY2%>%
   select(date,usd_to_try) %>%
   mutate(weekday = wday(date, label=TRUE)) %>%
   filter(!wday(date) %in% c(1, 7))
 
-#sütun isimlerini öğrendik
+#s?tun isimlerini ??rendik
 names(isdmr)
-#çıkarmak istediğimiz sütün isimlerini aşağıda yazarak çıkarttık
-#istenmeyen sütünlardan temizlenmiş verisetini isdmr2 değişkenine atadık.
+#??karmak istedi?imiz s?t?n isimlerini a?a??da yazarak ??kartt?k
+#istenmeyen s?t?nlardan temizlenmi? verisetini isdmr2 de?i?kenine atad?k.
 isdmr2= subset(isdmr, select = -c(Adj.Close,High,Low,Open,Volume) )
 
 
 
-#Date formatına çevirme 
+#Date format?na ?evirme 
 isdmr2<-isdmr2%>%
   mutate(Date=as.Date(isdmr2$Date))
 typeof(isdmr2$Date)
 
-#left join işlemi ile aralarında bulunan tarih farklarını eledik ve zaman aralıkları eşitlendi
+#left join i?lemi ile aralar?nda bulunan tarih farklar?n? eledik ve zaman aral?klar? e?itlendi
 
 
 isdmrmatch<-left_join(u2try,isdmr2, by = c("date" = "Date"))
@@ -159,30 +159,30 @@ melted_matchings3<-melt(isdmrmatch2,id=c("date"))
 
 
 
-# Zaman serisi Doğru görselleştirme
+# Zaman serisi Do?ru g?rselle?tirme
 ggplot(melted_matchings3,aes(x=date,y=value,color=variable)) +
   geom_line() + # grafik tipini berlirledik
   theme_bw()+
-  labs(title="Yıllara Göre Dolar Türk Lirası Ve Iskenderun Demir Çelik Hisse Fiyatı Değişimi",x = "Yillar",
+  labs(title="YÄ±llara GÃ¶re Dolar TÃ¼rk LirasÄ± Ve  Iskenderun Demir Ã‡elik Hisse FiyatÄ± DeÄŸiÅŸimi",x = "Yillar",
        y = "Fiyat(TL)") + # grafik basligi eksen isimlerini ayarladik
-  scale_color_manual(name="Varlıklar",
+  scale_color_manual(name="VarlÄ±klar",
                      labels=c("USDTRY","ISDMR"), 
-                     values=c("green4","darkorange")) +  # lejant ismi ve lejantta yer alan degiskenlerin isimlerini düzenledik
-  geom_smooth(se = T,size=0.5)+ # grafige trend çizgisi yerlestirdik
-  expand_limits(y=c(0,15))  # y ekseninin eksende yer alan sayilari düzenledik
+                     values=c("green4","darkorange")) +  # lejant ismi ve lejantta yer alan degiskenlerin isimlerini d?zenledik
+  geom_smooth(se = T,size=0.5)+ # grafige trend ?izgisi yerlestirdik
+  expand_limits(y=c(0,15))  # y ekseninin eksende yer alan sayilari d?zenledik
 
 
 
 
 
-#Zaman Serisi Yanlış görselleştirme
+#Zaman Serisi Yanl?? g?rselle?tirme
 
 ggplot(melted_matchings3,aes(x=date,y=value)) +
   geom_line() + # grafik tipini berlirledik
   theme_bw()+
-  labs(title="Yıllara Göre Dolar Türk Lirası Ve Iskenderun Demir Çelik Fiyat Değişimi",x = "Yillar",
+  labs(title="YÄ±llara gÃ¶re Dolar TÃ¼rk LirasÄ± Ve Iskenderun Demir Ã§elik Fiyat DeÄŸiÅŸimi",x = "Yillar",
        y = "Fiyat(TL)") + # grafik basligi eksen isimlerini ayarladik
-  expand_limits(y=c(8,15))  # y ekseninin eksende yer alan sayilari düzenledik
+  expand_limits(y=c(8,15))  # y ekseninin eksende yer alan sayilari d?zenledik
 
 
 
@@ -200,10 +200,10 @@ ggplot(melted_matchings3,aes(x=date,y=value)) +
 
 
 
-# SISECAM VS USDTRY PARİTESİ KARSILASTIRMA
+# SISECAM VS USDTRY PAR?TES? KARSILASTIRMA
 
 
-sise<-read.csv("D:\\Yedek\\VG PROJE\\SISE.csv")
+sise<-read.csv("/home/deniz/MasaÃ¼stÃ¼/veri_gorsellestirme_odevi/datasets/SISE.csv")
 
 range(sise$Date)
 #"2016-03-28" "2020-03-19"
@@ -216,30 +216,30 @@ USDTRY3 <- historical_exchange_rates("USD",
 colnames(USDTRY3)[2]="usd_to_try"
 
 
-#haftanın  günlerini çektik usdtry paritesi için 
+#haftan?n  g?nlerini ?ektik usdtry paritesi i?in 
 stry-USDTRY3%>%
   select(date,usd_to_try) %>%
   mutate(weekday = wday(date))
-# hafta günleri içinden pazartesi ve cuma olan çalışma günlerini çektik 
+# hafta g?nleri i?inden pazartesi ve cuma olan ?al??ma g?nlerini ?ektik 
 s2try<-USDTRY3%>%
   select(date,usd_to_try) %>%
   mutate(weekday = wday(date, label=TRUE)) %>%
   filter(!wday(date) %in% c(1, 7))
 
-#sütun isimlerini öğrendik
+#s?tun isimlerini ??rendik
 names(sise)
-#çıkarmak istediğimiz sütün isimlerini aşağıda yazarak çıkarttık
-#istenmeyen sütünlardan temizlenmiş verisetini sise2 değişkenine atadık.
+#??karmak istedi?imiz s?t?n isimlerini a?a??da yazarak ??kartt?k
+#istenmeyen s?t?nlardan temizlenmi? verisetini sise2 de?i?kenine atad?k.
 sise2= subset(sise, select = -c(Adj.Close,High,Low,Open,Volume) )
 
 
 
-#Date formatına çevirme 
+#Date format?na ?evirme 
 sise2<-sise2%>%
   mutate(Date=as.Date(sise2$Date))
 typeof(sise2$Date)
 
-#left join işlemi ile aralarında bulunan tarih farklarını eledik ve zaman aralıkları eşitlendi
+#left join i?lemi ile aralar?nda bulunan tarih farklar?n? eledik ve zaman aral?klar? e?itlendi
 
 
 sisematch<-left_join(s2try,sise2, by = c("date" = "Date"))
@@ -258,17 +258,17 @@ melted_matchings4<-melt(sisematch2,id=c("date"))
 
 
 
-# Zaman serisi Doğru görselleştirme
+# Zaman serisi Do?ru g?rselle?tirme
 ggplot(melted_matchings4,aes(x=date,y=value,color=variable)) +
   geom_line(alpha=0.8,position = "dodge") + # grafik tipini berlirledik
   theme_bw()+
-  labs(title="Yıllara Göre Dolar Türk Lirası Ve ŞişeCam Hisse Senedi Fiyat Değişimi",x = "Yillar",
+  labs(title="YÄ±llara GÃ¶re Dolar TÃ¼rk LirasÄ± Ve ÅiÅŸeCam Hisse Senedi Fiyat DeÄŸiÅŸimi",x = "Yillar",
        y = "Fiyat(TL)") + # grafik basligi eksen isimlerini ayarladik
-  scale_color_manual(name="Varlıklar",
+  scale_color_manual(name="VarlÄ±klar",
                      labels=c("USDTRY","SISE"), 
-                     values=c("green4","black")) +  # lejant ismi ve lejantta yer alan degiskenlerin isimlerini düzenledik
-  geom_smooth(se = T,size=0.5)+ # grafige trend çizgisi yerlestirdik
-  expand_limits(y=c(0,15))  # y ekseninin eksende yer alan sayilari düzenledik
+                     values=c("green4","black")) +  # lejant ismi ve lejantta yer alan degiskenlerin isimlerini d?zenledik
+  geom_smooth(se = T,size=0.5)+ # grafige trend ?izgisi yerlestirdik
+  expand_limits(y=c(0,15))  # y ekseninin eksende yer alan sayilari d?zenledik
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -277,12 +277,12 @@ ggplot(melted_matchings4,aes(x=date,y=value,color=variable)) +
 
 
 
-# AKSA VS USDTRY PARİTESİ
+# AKSA VS USDTRY PAR?TES?
 
 
 
 
-aksa<-read.csv("D:\\Yedek\\VG PROJE\\AKSA.csv")
+aksa<-read.csv("/home/deniz/MasaÃ¼stÃ¼/veri_gorsellestirme_odevi/datasets/AKSA.csv")
 
 range(aksa$Date)
 #"2010-01-01" "2020-03-19"
@@ -295,30 +295,30 @@ USDTRY4 <- historical_exchange_rates("USD",
 colnames(USDTRY2)[2]="usd_to_try"
 
 
-#haftanın  günlerini çektik usdtry paritesi için 
+#haftan?n  g?nlerini ?ektik usdtry paritesi i?in 
 utry4<-USDTRY2%>%
   select(date,usd_to_try) %>%
   mutate(weekday = wday(date))
-# hafta günleri içinden pazartesi ve cuma olan çalışma günlerini çektik 
+# hafta g?nleri i?inden pazartesi ve cuma olan ?al??ma g?nlerini ?ektik 
 utry4<-USDTRY2%>%
   select(date,usd_to_try) %>%
   mutate(weekday = wday(date, label=TRUE)) %>%
   filter(!wday(date) %in% c(1, 7))
 
-#sütun isimlerini öğrendik
+#s?tun isimlerini ??rendik
 names(aksa)
-#çıkarmak istediğimiz sütün isimlerini aşağıda yazarak çıkarttık
-#istenmeyen sütünlardan temizlenmiş verisetini isdmr2 değişkenine atadık.
+#??karmak istedi?imiz s?t?n isimlerini a?a??da yazarak ??kartt?k
+#istenmeyen s?t?nlardan temizlenmi? verisetini isdmr2 de?i?kenine atad?k.
 aksa2= subset(aksa, select = -c(Adj.Close,High,Low,Open,Volume) )
 
 
 
-#Date formatına çevirme 
+#Date format?na ?evirme 
 aksa2<-aksa2%>%
   mutate(Date=as.Date(aksa2$Date))
 typeof(aksa2$Date)
 
-#left join işlemi ile aralarında bulunan tarih farklarını eledik ve zaman aralıkları eşitlendi
+#left join i?lemi ile aralar?nda bulunan tarih farklar?n? eledik ve zaman aral?klar? e?itlendi
 
 
 aksamatch<-left_join(utry4,aksa2, by = c("date" = "Date"))
@@ -337,17 +337,17 @@ melted_matchings4<-melt(aksamatch,id=c("date"))
 
 
 
-# Zaman serisi Doğru görselleştirme
+# Zaman serisi Do?ru g?rselle?tirme
 ggplot(melted_matchings4,aes(x=date,y=value,color=variable)) +
   geom_line() + # grafik tipini berlirledik
   theme_bw()+
-  labs(title="Yıllara Göre Dolar Türk Lirası ve Aksa Akrilik Hisse Fiyatı Değişimi",x = "Yillar",
+  labs(title="YÄ±llara GÃ¶re Dolar TÃ¼rk LirasÄ± ve Aksa Akrilik Hisse FiyatÄ± DeÄŸiÅŸimi",x = "Yillar",
        y = "Fiyat(TL)") + # grafik basligi eksen isimlerini ayarladik
-  scale_color_manual(name="Varlıklar",
+  scale_color_manual(name="Varl?klar",
                      labels=c("USD/TRY","AKSA"), 
-                     values=c("green4","darkorange")) +  # lejant ismi ve lejantta yer alan degiskenlerin isimlerini düzenledik
-  geom_smooth(se = T,size=0.4)+ # grafige trend çizgisi yerlestirdik
-  expand_limits(y=c(0,15))  # y ekseninin eksende yer alan sayilari düzenledik
+                     values=c("green4","darkorange")) +  # lejant ismi ve lejantta yer alan degiskenlerin isimlerini d?zenledik
+  geom_smooth(se = T,size=0.4)+ # grafige trend ?izgisi yerlestirdik
+  expand_limits(y=c(0,15))  # y ekseninin eksende yer alan sayilari d?zenledik
 
 
 

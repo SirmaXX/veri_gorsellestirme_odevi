@@ -9,7 +9,7 @@ library(GGally)
 library(gapminder)
 
 #verisetini tanıtalım.
-file<-"/home/deniz/Masaüstü/veri_gorsellestirme_odevi/datasets/lung_cancer_examples.csv"
+file<-"/home/deniz/Masaüstü/veri_gorsellestirme_odevi/datasets/survey_lung_cancer.csv"
 data<-read.csv(file)
 str(data)
 
@@ -24,10 +24,10 @@ str(y)
 
 #correlation plot
 correlations <- cor(x)
-corrplot(correlations, method="square")
+corrplot(correlations, method="square", cl.pos = 'n')
 
 #pairs
-pairs(lungdata, col=y)
+pairs(lungdata,labels = c("Age", "Smokes", "AreaQ","Alcohol","Result"),  col = c("red", "cornflowerblue", "purple"), pch = 18,main = "pairs plot")
 
 
 #koleogram
